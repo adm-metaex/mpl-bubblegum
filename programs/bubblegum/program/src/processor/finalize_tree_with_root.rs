@@ -6,7 +6,7 @@ use spl_account_compression::{program::SplAccountCompression, Noop};
 
 use crate::{
     error::BubblegumError,
-    state::{TreeConfig, MINIMUM_STAKE, REALM, REALM_GOVERNING_MINT},
+    state::{TreeConfig, MINIMUM_STAKE_INDEX, REALM, REALM_GOVERNING_MINT},
 };
 
 #[derive(Accounts)]
@@ -121,21 +121,30 @@ fn check_stake<'info>(
 
     let clock = Clock::get()?;
 
-    let amount_locked: u64 = voter
+    let mut total_stake = 0;
+
+    let weighted_sum: u64 = voter
         .deposits
         .iter()
         .filter_map(|d| {
-            if d.is_used
-                && (d.lockup.end_ts > (clock.unix_timestamp as u64) && !d.lockup.cooldown_requested)
-            {
-                Some(d.amount_deposited_native)
+            if d.is_used && !d.lockup.cooldown_requested {
+                if d.lockup.end_ts > (clock.unix_timestamp as u64) {
+                    total_stake += d.amount_deposited_native;
+                    Some(d.lockup.period.multiplier() * d.amount_deposited_native)
+                } else {
+                    total_stake += d.amount_deposited_native;
+                    // save as flex lockup
+                    Some(d.lockup.period.get_flex_multiplier() * d.amount_deposited_native)
+                }
             } else {
                 None
             }
         })
         .sum();
 
-    if amount_locked < MINIMUM_STAKE {
+    let staking_index = weighted_sum / total_stake;
+
+    if staking_index < MINIMUM_STAKE_INDEX {
         return Err(BubblegumError::NotEnoughStakeForOperation.into());
     }
 

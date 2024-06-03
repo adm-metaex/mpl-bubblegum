@@ -18,7 +18,7 @@ pub const REALM_GOVERNING_MINT: Pubkey =
     solana_program::pubkey!("Dqa4iCUDXvSh5FwhopFJM76xdxQb5vSw39LvggbUWH9o");
 
 // TODO: change to real one
-pub const MINIMUM_STAKE: u64 = 100000000;
+pub const MINIMUM_STAKE_INDEX: u64 = 2;
 
 #[account]
 #[derive(Copy, Debug, PartialEq, Eq)]
