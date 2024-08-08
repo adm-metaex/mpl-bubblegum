@@ -105,7 +105,7 @@ pub(crate) fn mint_to_collection_v1(
         &collection_authority,
         &collection_authority_record_pda,
         &edition_account,
-        &mut message,
+        &mut message.collection,
         true,
     )?;
 
@@ -114,7 +114,7 @@ pub(crate) fn mint_to_collection_v1(
         owner,
         delegate,
         metadata_auth,
-        *ctx.bumps.get("tree_authority").unwrap(),
+        ctx.bumps.tree_authority,
         authority,
         merkle_tree,
         &ctx.accounts.log_wrapper,

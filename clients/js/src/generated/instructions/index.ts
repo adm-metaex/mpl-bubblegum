@@ -6,13 +6,17 @@
  * @see https://github.com/metaplex-foundation/kinobi
  */
 
+export * from './addCanopy';
 export * from './burn';
 export * from './cancelRedeem';
 export * from './createTreeConfig';
 export * from './decompressV1';
 export * from './delegate';
+export * from './finalizeTreeWithRoot';
+export * from './finalizeTreeWithRootAndCollection';
 export * from './mintToCollectionV1';
 export * from './mintV1';
+export * from './prepareTree';
 export * from './redeem';
 export * from './setAndVerifyCollection';
 export * from './setDecompressibleState';
