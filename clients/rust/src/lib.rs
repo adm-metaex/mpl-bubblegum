@@ -86,3 +86,13 @@ impl LeafSchemaEvent {
         }
     }
 }
+
+pub const MAX_ACC_PROOFS_SIZE: u32 = 17;
+
+pub const REALM: Pubkey = solana_program::pubkey!("EzsKaQq68FLZwRaiUx7t17LWVVzsE8wRkhBghFrZGGwG");
+pub const REALM_GOVERNING_MINT: Pubkey =
+    solana_program::pubkey!("Dqa4iCUDXvSh5FwhopFJM76xdxQb5vSw39LvggbUWH9o");
+pub const FEE_RECEIVER: Pubkey =
+    solana_program::pubkey!("EzsKaQq61FLZwRaiUx7t17LWVVzsE8wRkhBghFrZGGwG");
+
+pub const VOTER_DISCRIMINATOR: [u8; 8] = [241, 93, 35, 191, 254, 147, 17, 202];
